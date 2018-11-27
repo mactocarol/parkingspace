@@ -1,0 +1,71 @@
+﻿.error{
+	color:red;
+}
+.errors{
+	color:red;
+}
+.panel-heading{
+    padding: 12px; 
+}
+.viewheading{
+	font-size: 1.2em;
+}
+.ephoto{
+	width: 100px;
+    height: 100px;
+	max-width:none;
+}
+.trashr{
+	text-align:center;
+    margin-top: 30px;
+}
+.trashr{
+	text-align:center;
+    margin-top: 30px;
+}
+.trashr .fa{
+font-size: 28px;
+color:#d31a1a;
+}
+#offaddmore3{
+	position: relative;
+    overflow: hidden;
+    padding: 8px 9px;
+    display: inline-block;
+    text-align: center;
+    background: #000035;
+    font-size: 15px;
+    border-radius: 0;
+    border: none;
+    color: #fff !important;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+#offaddmore2{
+	position: relative;
+    overflow: hidden;
+    padding: 8px 9px;
+    display: inline-block;
+    text-align: center;
+    background: #000035;
+    font-size: 15px;
+    border-radius: 0;
+    border: none;
+    color: #fff !important;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+#offaddmore{
+	position: relative;
+    overflow: hidden;
+    padding: 8px 9px;
+    display: inline-block;
+    text-align: center;
+    background: #000035;
+    font-size: 15px;
+    border-radius: 0;
+    border: none;
+    color: #fff !important;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
