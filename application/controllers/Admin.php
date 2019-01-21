@@ -2,7 +2,8 @@
 ob_start();
 class Admin extends MY_Base_Controller{
 	function __construct() {
-        parent::__construct();         				 
+        parent::__construct();
+        $this->load->model('Core_Model');
     }
 	
 public function index()
@@ -175,5 +176,265 @@ public function logout(){
      $this->session->sess_destroy();
      redirect('Admin/');
 	}
+    
+    public function Newsletter(){
+        $data['control']="Newsletter";
+		$data['controlname']="Newsletter";	
+		$data['controlnamehead']="Newsletter";
+		$data['controlnamemsg']="Newsletter";
+        $data['results'] = $this->Core_Model->SelectRecord('newsletter',array(),array(),'id desc');
+        $this->adminheader();	
+        $this->load->view("admin/Newsletter",$data);	
+        $this->adminfooter();
+    }
+    
+    public function Testimonial(){
+        $data['control']="Testimonial";
+		$data['controlname']="Testimonial";	
+		$data['controlnamehead']="Testimonial";
+		$data['controlnamemsg']="Testimonial";
+        $data['user']=$this->Common_Model->getdata("user",$where="",$sort='name asc');
+        $data['results'] = $this->Core_Model->SelectRecord('testimonial',array(),array(),'id desc');
+        $this->adminheader();	
+        $this->load->view("admin/Testimonial",$data);	
+        $this->adminfooter();
+    }
+    
+    public function addtestimonial()
+{
+$data['control']="Managetestimonial";
+$data['controlnamemsg']="Add testimonial";
+$data['controlname']="testimonial";
+$data['user']=$this->Common_Model->getdata("user",$where="",$sort='name asc');		
+$this->adminheader();	
+$this->load->view("admin/AddTestimonial",$data);	
+$this->adminfooter(); 
+}
+    
+    public function edittestimonial($id=0)
+{	
+if($this->uri->segment(3))
+{
+$id=$this->uri->segment(3);
+}
+$data['control']="Managetestimonial";
+$data['controlnamemsg']="Edit testimonial";
+$data['controlname']="testimonial";
+$data['category']=$this->Common_Model->getdata("testimonialcategory",$where="",$sort='name asc');	
+$data['user']=$this->Common_Model->getdata("user",$where="",$sort='name asc');	
+$where=array("id"=>$id);
+$data['testimonial']=$this->Common_Model->getdata("testimonial",$where,$sort='');	
+$this->adminheader();	
+$this->load->view("admin/Edittestimonial",$data);	
+$this->adminfooter();
+}
 
+public function createtestimonial()
+{
+        $this->form_validation->set_rules('title', 'Name', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+		$this->form_validation->set_rules('location', 'Location', 'required');
+		//$this->form_validation->set_rules('uid', 'User', 'required');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->addtestimonial();
+		}
+		else
+		{            
+		 $photo=$this->savecropimage("photo","upload/blog/");		  
+		  
+		 //$ophoto=$this->imageUpload("ophoto","upload/testimonial/");
+					
+	     $datas=array("name"=>$this->input->post("title"),"address"=>$this->input->post("location"),"message"=>$this->input->post("description"),"image"=>$photo);
+		 $updt=$this->Common_Model->insert("testimonial",$datas);		   
+		 if($updt)
+         { 	 
+	       $this->session->set_flashdata('result', 1);
+		   $this->session->set_flashdata('class', 'success');
+		   $this->session->set_flashdata('msg', "Testimonial added successfully");
+		   redirect("Admin/testimonial");
+         }
+         else	
+         {  
+           $this->session->set_flashdata('result', 1);
+		   $this->session->set_flashdata('class', 'danger');
+		   $this->session->set_flashdata('msg', "Error to add");
+           redirect("Admin/testimonial");
+	     }
+		}		
+}
+
+public function updatetestimonial($id=0)
+{
+        $this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+		$this->form_validation->set_rules('category[]', 'Category', 'required');
+		$this->form_validation->set_rules('uid', 'User', 'required');
+		
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->edittestimonial($id);
+		}
+		else
+		{	
+	      if(!empty($_FILES['ophoto']['name']))
+		  {
+		  $this->unsetImage($id,'testimonial','ophoto','upload/testimonial/');		  		 
+		  $ophoto=$this->imageUpload("ophoto","upload/testimonial/");		 	     
+		  }
+		  else{
+		  $ophoto=$this->input->post('ophoto1');
+          }
+		  $category="";	
+		  if($this->input->post('category'))
+          $category=implode(",", $this->input->post('category'));		
+
+          $where=array("id"=>$id);	
+
+          if($this->input->post("photo"))
+		  {
+		  $this->unsetImage($id,'testimonial','photo','upload/testimonial/');		  		 
+		  $photo=$this->savecropimage("photo","upload/testimonial/");		 	     
+		  }
+		  else{
+		  $photo=$this->input->post('photo1');
+          }			  
+		
+	      $datas=array("title"=>$this->input->post("title"),"description"=>$this->input->post("description"),"category"=>$category,"uid"=>$this->input->post("uid"),"photo"=>$photo,"ophoto"=>$ophoto,
+		  "status"=>0,"updated_dt"=>date("Y-m-d H:i:s"));
+		 
+		 $updt=$this->Common_Model->update("testimonial",$datas,$where);		   
+		 if($updt)
+         { 	 
+	       $this->session->set_flashdata('result', 1);
+		   $this->session->set_flashdata('class', 'success');
+		   $this->session->set_flashdata('msg', "Testimonial updated successfully");
+		   redirect("Managetestimonial/testimonial");
+         }
+         else	
+         {  
+           $this->session->set_flashdata('result', 1);
+		   $this->session->set_flashdata('class', 'danger');
+		   $this->session->set_flashdata('msg', "Error to update");
+           redirect("Managetestimonial/edittestimonial/$id");
+	     }
+		}		
+}
+
+public function deleteTestimonial()
+	{
+		if($this->uri->segment(3)=='success')
+		{
+			$this->session->set_flashdata('result', 1);
+			$this->session->set_flashdata('class', 'success');
+			$this->session->set_flashdata('msg', "Testimonial delete successfully.");
+			redirect("Admin/testimonial");
+		}
+		else if($this->uri->segment(3)=='error')
+		{
+			$this->session->set_flashdata('result', 1);
+			$this->session->set_flashdata('class', 'error');
+			$this->session->set_flashdata('msg', "Error to delete.");
+			redirect("Admin/testimonial");
+		}
+		else{
+			$id=$this->input->post('id');            
+            $this->unsetImage($id,'testimonial','image','upload/testimonial/');			
+		    $data=$this->Common_Model->deletedata('testimonial',array('id'=>$id));			
+			echo $data;
+		}			
+	}
+	
+	
+public function showtestimonial($id,$status)
+	{
+		$site_title=$this->getdataSingleValue(22,'front_setting','title_english','st');
+        $testimonial_name=$this->getSingleValue($id,'testimonial','title');
+		$uid=$this->getSingleValue($id,'testimonial','uid');
+		$name=$this->getSingleValue($uid,'user','name');
+		$email=$this->getSingleValue($uid,'user','email');
+            $sts=0;
+			$v="";
+			if($status==1)
+			{
+				$sts=1;
+				$v="Approved";
+				$message="Your ".$testimonial_name." testimonial has been approved.";
+				$subject="Testimonial approved at ".$site_title;
+	        }
+			if($status==2)
+			{
+				$sts=2;
+				$v="Disapproved";
+				$message="Your ".$testimonial_name." testimonial has been disapproved.";
+				$subject="Testimonial disapproved at ".$site_title;
+			}
+			
+			$datas['messages']=array($name,$message);
+		    $this->email($email,$subject,$datas);
+			
+            $udata=array("status"=>$sts);
+			$data=$this->Common_Model->update('testimonial',$udata,array('id'=>$id));			
+			$this->session->set_flashdata('result', 1);
+			$this->session->set_flashdata('class', 'success');
+			$this->session->set_flashdata('msg', "Testimonial ".$v." successfully.");
+			redirect("Managetestimonial/testimonial");
+	}
+    
+    public function Bookings() {        
+        $order = $this->Core_Model->joindataResult('o.order_no', 'od.order_id', array(), 'o.*,od.product_id', 'order as o', 'order_detail as od', 'o.id desc');
+
+        foreach ($order as $key => $row) {
+            $booking = $this->Common_Model->getdata("booking", $where = array("order_id" => $row['order_no']), $sort = '');
+            $space = $this->Core_Model->SelectSingleRecord('rentourspace', '*', array("id" => $row['product_id']), $orderby = array());
+            $datee = [];
+            foreach ($booking as $val) {
+                $datee[] = $val->bookdate;
+                $booking_from = $val->booking_from;
+                $booking_to = $val->booking_to;
+                $vehicle = $val->vehicle_id;
+            }
+            $order[$key]['booking_from'] = $booking_from;
+            $order[$key]['booking_to'] = $booking_to;
+            $vehicles = $this->Core_Model->SelectSingleRecord('vehicle', '*', array("id" => $vehicle), $orderby = array());
+            $user = $this->Core_Model->SelectSingleRecord('user', '*', array("id" => $row['user_id']), $orderby = array());
+            $order[$key]['vehicle_id'] = ($vehicles->isHired) ? "Car" . ' ' . $vehicles->vehicle_model . ' ' . $vehicles->license : $vehicles->vehicle_type . ' ' . $vehicles->vehicle_model . ' ' . $vehicles->license;
+            $order[$key]['typeofspace'] = $space->typeofspace . ' on ' . $space->address;
+            $order[$key]['sid'] = $user->id;
+            $order[$key]['user'] = $user->name;
+            $order[$key]['email'] = $user->email;
+            $order[$key]['contact'] = $user->contact;
+        }
+
+        $data['booking'] = $order;
+        //echo "<pre>"; print_r($data['booking']); die;
+        $data['control']="Bookings";
+        $data['controlnamemsg']="Bookings";
+        $data['controlnamehead']="Bookings";
+        $data['controlname']="bookings";
+        $this->adminheader();	
+        $this->load->view("admin/Booking",$data);	
+        $this->adminfooter();
+    }
+    
+     public function transactions(){                    
+                                                            
+        
+        $data['transactions'] = $this->Core_Model->SelectRecord('transactions','*',array(),'id desc');                                        
+        
+        
+        //print_r($data['transactions']); die;
+        $data['control']="Transactions";
+        $data['controlnamemsg']="Transactions";
+        $data['controlnamehead']="Transactions";
+        $data['controlname']="transactions";
+        
+		$data['controlnamemsg']="Newsletter";
+        $this->adminheader();	
+        $this->load->view("admin/Transactions",$data);	
+        $this->adminfooter();
+       
+    }    
+    
 }

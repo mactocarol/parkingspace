@@ -74,20 +74,20 @@
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li class="<?php if($this->uri->segment(2)=='viewfrontsetting' || $this->uri->segment(2)=='addfrontsetting' || $this->uri->segment(2)=='editfrontsetting' || $this->uri->segment(2)=='frontsetting') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Setting/frontsetting">Front Setting</a></li>
-
+<li class="<?php if($this->uri->segment(2)=='HomeSetting') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Setting/HomeSetting">Home Setting</a></li>
  <li class="<?php if($this->uri->segment(2)=='addcommission' || $this->uri->segment(2)=='editcommission' || $this->uri->segment(2)=='commission') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Setting/commission">Commission</a></li>											
 						               
 										</ul>
 						            </li>
 									
-									<li class="<?php if($this->uri->segment(1)=='Manageuser') { echo "active-sub active"; } ?>">
+									<!--<li class="<?php if($this->uri->segment(1)=='Manageuser') { echo "active-sub active"; } ?>">
 						                <a href="#">
 						                    <i class="fa fa-users"></i>
 						                    <span class="menu-title">User</span>
 											<i class="arrow"></i>
 						                </a>
 						
-						                <!--Submenu-->
+						                <!--Submenu--
 						                <ul class="collapse">
 						                    <li class="<?php if($this->uri->segment(2)=='viewuser' || $this->uri->segment(2)=='adduser' || $this->uri->segment(2)=='edituser' || $this->uri->segment(2)=='user') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Manageuser/user">User List</a></li>										
 						                </ul>
@@ -103,7 +103,7 @@
 										<ul class="collapse">
 						                    <li class="<?php if($this->uri->segment(2)=='addpaymentoption' || $this->uri->segment(2)=='editpaymentoption' || $this->uri->segment(2)=='paymentoption') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Manageuser/paymentoption">Payment option</a></li>										
 						                </ul>
-						            </li>
+						            </li>-->
 									
 									
 									<!--<li class="<?php if($this->uri->segment(1)=='Manageparkingowner') { echo "active-sub active"; } ?>">
@@ -124,38 +124,51 @@
 								
 									
 									
-									<li class="<?php if($this->uri->segment(1)=='Package') { echo "active-sub active"; } ?>">
+									<!--<li class="<?php if($this->uri->segment(1)=='Package') { echo "active-sub active"; } ?>">
 						                <a href="#">
 						                    <i class="fa fa-gift"></i>
 						                    <span class="menu-title">Package</span>
 											<i class="arrow"></i>
 						                </a>
 						
-						                <!--Submenu-->
+						                <!--Submenu--
 						                <ul class="collapse">
 						                  <li class="<?php if($this->uri->segment(2)=='addfeature' || $this->uri->segment(2)=='editfeature' || $this->uri->segment(2)=='feature') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Package/feature">Feature</a></li>										 
 										  <li class="<?php if($this->uri->segment(2)=='addpackagelist' || $this->uri->segment(2)=='editpackagelist' || $this->uri->segment(2)=='packagelist') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Package/packagelist">Package list</a></li>										 
 																				
 						                </ul>
-						            </li>
+						            </li>-->
 									
 									
-									<li class="<?php if($this->uri->segment(1)=='Managecoupon') { echo "active-sub active"; } ?>">
+									<!--<li class="<?php if($this->uri->segment(1)=='Managecoupon') { echo "active-sub active"; } ?>">
 						                <a href="#">
 						                    <i class="fa fa-gift"></i>
 						                    <span class="menu-title">Coupon</span>
 											<i class="arrow"></i>
 						                </a>
 						
-						                <!--Submenu-->
+						                <!--Submenu--
 						                <ul class="collapse">
 										 
 										 <li class="<?php if($this->uri->segment(2)=='addcoupon' || $this->uri->segment(2)=='editcoupon' || $this->uri->segment(2)=='coupon') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Managecoupon/coupon">Coupon list</a></li>
 						                 
 																				
 						                </ul>
+						            </li>-->
+									<li class="<?php if($this->uri->segment(2)=='Bookings') { echo "active-sub"; } ?>">
+						                <a href="<?php echo base_url(); ?>Admin/Bookings">
+						                    <i class="fa fa-money"></i>
+						                    <span class="menu-title">Bookings</span>
+											
+						                </a>
 						            </li>
-									
+                                    <li class="<?php if($this->uri->segment(2)=='Transactions') { echo "active-sub"; } ?>">
+						                <a href="<?php echo base_url(); ?>Admin/Transactions">
+						                    <i class="fa fa-money"></i>
+						                    <span class="menu-title">Transactions</span>
+											
+						                </a>
+						            </li>
 									<li class="<?php if($this->uri->segment(1)=='Manageblog') { echo "active-sub active"; } ?>">
 						                <a href="#">
 						                    <i class="fa fa-comments"></i>
@@ -166,7 +179,7 @@
 						                <!--Submenu-->
 						                <ul class="collapse">
 										 
-										 <li class="<?php if($this->uri->segment(2)=='addblogcategory' || $this->uri->segment(2)=='editblogcategory' || $this->uri->segment(2)=='blogcategory') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Manageblog/blogcategory">Blog Category list</a></li>
+										 <!--<li class="<?php if($this->uri->segment(2)=='addblogcategory' || $this->uri->segment(2)=='editblogcategory' || $this->uri->segment(2)=='blogcategory') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Manageblog/blogcategory">Blog Category list</a></li>-->
 						                 
 										 <li class="<?php if($this->uri->segment(2)=='addblog' || $this->uri->segment(2)=='editblog' || $this->uri->segment(2)=='viewblog' || $this->uri->segment(2)=='blog') { echo "active-link"; } ?>"><a href="<?php echo base_url(); ?>Manageblog/blog">   Blog list</a></li>										
 						                </ul>
@@ -187,7 +200,20 @@
 						                </ul>
 						            </li>-->
 						           
-
+                                    <li class="<?php if($this->uri->segment(1)=='Newsletter') { echo "active-sub active"; } ?>">
+						                <a href="<?php echo site_url('Admin/Newsletter');?>">
+						                    <i class="fa fa-comments"></i>
+						                    <span class="menu-title">Newsletter</span>											
+						                </a>												                
+						            </li>
+                                    
+                                    <li class="<?php if($this->uri->segment(1)=='Testimonial') { echo "active-sub active"; } ?>">
+						                <a href="<?php echo site_url('Admin/Testimonial');?>">
+						                    <i class="fa fa-comments"></i>
+						                    <span class="menu-title">Testimonial</span>											
+						                </a>												                
+						            </li>
+                                    
 									
 									<!--  Main -->
                                 </ul>
